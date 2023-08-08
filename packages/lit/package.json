@@ -1,0 +1,59 @@
+{
+  "name": "remix-router-lit",
+  "version": "0.1.0",
+  "description": "A Lit UI layer for nested + data-driven routing via @remix-run/router",
+  "author": "mark@malstrom.me",
+  "license": "MIT",
+  "main": "dist/remix-router-lit.umd.js",
+  "module": "dist/remix-router-lit.es.js",
+  "types": "dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/remix-router-lit.es.js",
+      "require": "./dist/remix-router-lit.umd.js"
+    }
+  },
+  "sideEffects": false,
+  "homepage": "https://github.com/brophdawg11/remix-routers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brophdawg11/remix-routers.git",
+    "directory": "packages/lit"
+  },
+  "bugs": {
+    "url": "https://github.com/brophdawg11/remix-routers/issues"
+  },
+  "keywords": [
+    "remix",
+    "remix-run",
+    "router",
+    "lit",
+    "web components"
+  ],
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "vite build && tsc -b",
+    "clean": "git clean -fX .",
+    "dev": "vite dev",
+    "integration:open": "cypress open --config-file ../../cypress.config.ts",
+    "integration:start": "vite dev --mode=production --port 3000",
+    "integration:test": "cypress run --config-file ../../cypress.config.ts",
+    "integration": "start-server-and-test integration:start http-get://localhost:3000/ integration:test",
+    "prepublishOnly": "rm -rf dist && npm run build"
+  },
+  "dependencies": {
+    "@remix-run/router": "^1.7.2",
+    "tiny-invariant": "^1.3.1"
+  },
+  "peerDependencies": {
+    "@lit-labs/context": "^0.3.3",
+    "lit": "^2.7.6"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}

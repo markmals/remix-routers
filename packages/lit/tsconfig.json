@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationDir": "dist",
+    "emitDeclarationOnly": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    "paths": {
+      "~/*": ["./reference-app/*"],
+      "remix-router-lit": ["./src/index.ts"]
+    },
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "strict": true,
+    "target": "ESNext"
+  },
+  // "./reference-app",
+  "exclude": ["vite.config.ts"],
+  "include": ["./**/*.ts"]
+}
