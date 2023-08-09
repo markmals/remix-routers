@@ -1,0 +1,61 @@
+{
+  "name": "remix-router-preact-signals",
+  "version": "0.1.0",
+  "description": "A Preact Signals UI layer for nested + data-driven routing via @remix-run/router",
+  "author": "mark@malstrom.me",
+  "license": "MIT",
+  "main": "dist/remix-router-preact-signals.umd.js",
+  "module": "dist/remix-router-preact-signals.es.js",
+  "types": "dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/remix-router-preact-signals.es.js",
+      "require": "./dist/remix-router-preact-signals.umd.js"
+    }
+  },
+  "sideEffects": false,
+  "homepage": "https://github.com/brophdawg11/remix-routers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brophdawg11/remix-routers.git",
+    "directory": "packages/preact-signals"
+  },
+  "bugs": {
+    "url": "https://github.com/brophdawg11/remix-routers/issues"
+  },
+  "keywords": [
+    "remix",
+    "remix-run",
+    "router",
+    "preact",
+    "preact signals"
+  ],
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "vite build && tsc -b",
+    "clean": "git clean -fX .",
+    "dev": "vite dev",
+    "integration:open": "cypress open --config-file ../../cypress.config.ts",
+    "integration:start": "vite dev --mode=production --port 3000",
+    "integration:test": "cypress run --config-file ../../cypress.config.ts",
+    "integration": "start-server-and-test integration:start http-get://localhost:3000/ integration:test",
+    "prepublishOnly": "rm -rf dist && npm run build"
+  },
+  "dependencies": {
+    "@remix-run/router": "^1.7.2",
+    "tiny-invariant": "^1.3.1"
+  },
+  "peerDependencies": {
+    "@preact/signals": ">=1.2.0",
+    "preact": ">=10.16.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.5.0",
+    "@preact/signals": "^1.2.0",
+    "preact": "^10.16.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}
