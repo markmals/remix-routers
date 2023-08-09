@@ -10,9 +10,7 @@ export class TaskItem extends LitElement {
   @property({ attribute: false })
   public task!: Task;
 
-  get fetcher() {
-    return this.router.fetcher();
-  }
+  fetcher = this.router.fetcher();
 
   get isDeleting() {
     return this.fetcher.formData != null;

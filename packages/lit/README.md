@@ -25,6 +25,13 @@ Please refer to the [docs for `react-router`][rr-docs] for reference on the APIs
 **app.ts**
 
 ```ts
+import { LitElement, html } from "lit";
+import { customElement } from "lit/decorators.js";
+import { createBrowserRouter } from "remix-router-lit";
+
+import "./layout.ts"
+import "./index.ts"
+
 @customElement("app-main")
 export class App extends LitElement {
   // Define your routes in a nested array, providing loaders and actions where
@@ -32,12 +39,12 @@ export class App extends LitElement {
   routes = [
     {
       path: "/",
-      element: Layout,
+      element: "app-layout",
       children: [
         {
           index: true,
           loader: indexLoader,
-          element: Index,
+          element: "app-index",
         },
       ],
     },
@@ -62,13 +69,22 @@ export class App extends LitElement {
 **layout.ts**
 
 ```ts
+import { LitElement, html } from "lit";
+import { customElement } from "lit/decorators.js";
+import { RouterController } from "remix-router-lit";
+
 @customElement("app-layout")
 export class Layout extends LitElement {
+  router = new RouterController(this);
+
   render() {
     return html`
       <!-- Render global-layout stuff here, such as a header and nav bar -->
       <h1>Welcome to my Lit Application!</h1>
-      <nav><!-- nav links --></nav>
+      <nav>
+        <a href="/child ${this.router.enhanceLink()}>Go to Child</a>
+        <!-- more nav links -->
+      </nav>
 
       <!-- Render matching child routes via <remix-outlet> -->
       <remix-outlet></remix-outlet>
@@ -80,6 +96,10 @@ export class Layout extends LitElement {
 **index.ts**
 
 ```ts
+import { LitElement, html } from "lit";
+import { customElement } from "lit/decorators.js";
+import { RouterController } from "remix-router-lit";
+
 export async function loader() {
   // Load your data here and return whatever you need access to in the UI
   return {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ContextConsumer, createContext, provide } from "@lit-labs/context";
 import {
   AbortedDeferredError,
@@ -90,7 +91,7 @@ export type DataRouteObject = RouteObject & {
 
 export interface RouteMatch<
   ParamKey extends string = string,
-  RouteObjectType extends RouteObject = RouteObject,
+  RouteObjectType extends RouteObject = RouteObject
 > extends AgnosticRouteMatch<ParamKey, RouteObjectType> {}
 
 export interface DataRouteMatch extends RouteMatch<string, DataRouteObject> {}
@@ -158,7 +159,7 @@ type FetcherWithDirective<TData> = Fetcher<TData> & {
       | URLSearchParams
       | { [name: string]: string }
       | null,
-    options?: SubmitOptions,
+    options?: SubmitOptions
   ): void;
   enhanceForm(options?: {
     replace: boolean;
@@ -189,7 +190,7 @@ export function createMemoryRouter(
     hydrationData,
     initialEntries,
     initialIndex,
-  }: CreateMemoryRouterOpts = {},
+  }: CreateMemoryRouterOpts = {}
 ) {
   return createRouter({
     basename,
@@ -204,7 +205,7 @@ export function createMemoryRouter(
 
 export function createBrowserRouter(
   routes: RouteObject[],
-  { basename, hydrationData, window }: CreateBrowserRouterOpts = {},
+  { basename, hydrationData, window }: CreateBrowserRouterOpts = {}
 ) {
   return createRouter({
     basename,
@@ -216,7 +217,7 @@ export function createBrowserRouter(
 
 export function createHashRouter(
   routes: RouteObject[],
-  { basename, hydrationData, window }: CreateHashRouterOpts = {},
+  { basename, hydrationData, window }: CreateHashRouterOpts = {}
 ) {
   return createRouter({
     basename,
@@ -235,6 +236,8 @@ export const routeContext = createContext<RouteContext>(RouteContextSymbol);
 export const routeErrorContext =
   createContext<RouteErrorContext>(RouteErrorSymbol);
 
+let fetcherId = 0;
+
 export class RouterController implements ReactiveController {
   private host: ReactiveElement;
   private routerConsumer: ContextConsumer<
@@ -246,8 +249,6 @@ export class RouterController implements ReactiveController {
     typeof routeErrorContext,
     ReactiveElement
   >;
-
-  private fetcherId = 0;
 
   private onStateChange: (() => void)[] = [];
   private onDisconnected: (() => void)[] = [];
@@ -380,7 +381,7 @@ export class RouterController implements ReactiveController {
     return resolveTo(
       to,
       getPathContributingMatches(matches).map((match) => match.pathnameBase),
-      this.location.pathname,
+      this.location.pathname
     );
   };
 
@@ -392,7 +393,7 @@ export class RouterController implements ReactiveController {
 
   public navigate: NavigateFunction = (
     to: To | number,
-    options: NavigateOptions = {},
+    options: NavigateOptions = {}
   ) => {
     let { router } = this.routerContext;
     let { matches } = this.routeContext;
@@ -405,7 +406,7 @@ export class RouterController implements ReactiveController {
     let path = resolveTo(
       to,
       getPathContributingMatches(matches).map((match) => match.pathnameBase),
-      this.location.pathname,
+      this.location.pathname
     );
 
     router.navigate(path, {
@@ -421,7 +422,7 @@ export class RouterController implements ReactiveController {
     let path = resolveTo(
       action,
       getPathContributingMatches(matches).map((match) => match.pathnameBase),
-      this.location.pathname,
+      this.location.pathname
     );
 
     let search = path.search;
@@ -446,7 +447,7 @@ export class RouterController implements ReactiveController {
      * Options that override the `<form>`'s own attributes. Required when
      * submitting arbitrary data without a backing `<form>`.
      */
-    options?: SubmitOptions,
+    options?: SubmitOptions
   ) => {
     let { router } = this.routerContext;
     let defaultAction = this.formAction();
@@ -458,7 +459,7 @@ export class RouterController implements ReactiveController {
     let { router } = this.routerContext;
     let { id } = this.routeContext;
     let defaultAction = this.formAction();
-    let fetcherKey = String(++this.fetcherId);
+    let fetcherKey = String(++fetcherId);
 
     const formDirective = directive(FormDirective);
 
@@ -473,7 +474,7 @@ export class RouterController implements ReactiveController {
           target,
           options,
           fetcherKey,
-          id,
+          id
         );
       },
       load: (href) => {
@@ -483,9 +484,14 @@ export class RouterController implements ReactiveController {
 
     let fetcher = router.getFetcher<TData>(fetcherKey);
     fetcherExtras = { ...fetcherExtras, ...fetcher };
+
+    let unsubscribe: (() => void) | undefined;
     this.onStateChange.push(() => {
-      fetcher = router.getFetcher<TData>(fetcherKey);
-      fetcherExtras = { ...fetcherExtras, ...fetcher };
+      if (unsubscribe) unsubscribe();
+      unsubscribe = this.routerContext.router.subscribe(() => {
+        fetcher = router.getFetcher<TData>(fetcherKey);
+        fetcherExtras = { ...fetcherExtras, ...fetcher };
+      });
     });
 
     this.onDisconnected.push(() => router.deleteFetcher(fetcherKey));
@@ -508,7 +514,7 @@ export class RouterController implements ReactiveController {
   };
 
   public enhanceForm = (
-    options: { replace: boolean } = { replace: false },
+    options: { replace: boolean } = { replace: false }
   ): DirectiveResult<typeof FormDirective> => {
     return this.directives.form(this as any, options.replace, null, null);
   };
@@ -615,7 +621,7 @@ export class RouteWrapper extends LitElement {
       matches: this.routerController.matches.slice(
         0,
         this.routerController.matches.findIndex((m) => m.route.id === this.id) +
-          1,
+          1
       ),
       index: this.index === true,
     };
@@ -658,7 +664,7 @@ export class ErrorBoundary extends LitElement {
           >${this.child}</remix-error-wrapper
         >
       `,
-      () => html`<slot></slot>`,
+      () => html`<slot></slot>`
     );
   }
 }
@@ -680,13 +686,13 @@ export class OutletImpl extends LitElement {
 
   render() {
     let idx = this.routerController.matches.findIndex(
-      (m) => m.route.id === this.routeContext?.id,
+      (m) => m.route.id === this.routeContext?.id
     );
     if (idx < 0 && !this.root) {
       throw new Error(
         `Unable to find <remix-outlet> match for route id: ${
           this.routeContext?.id || "_root_"
-        }`,
+        }`
       );
     }
     let matchToRender = this.routerController.matches[idx + 1];
@@ -711,13 +717,16 @@ export class OutletImpl extends LitElement {
 function renderRouteWrapper(
   match: DataRouteMatch,
   root?: boolean,
-  error?: unknown,
+  error?: unknown
 ): TemplateResult {
   const child = unsafeHTML(
     !!match.route.element
       ? `<${match.route.element}></${match.route.element}>`
-      : "",
+      : ""
   );
+
+  // FIXME: There is a stale-state issue here causing this to be called
+  // with an old id after that id no longer exists
 
   return html`
     <remix-route-wrapper
@@ -734,7 +743,7 @@ function renderRouteWrapper(
             ${child}
           </remix-error-boundary>
         `,
-        () => html`${child}`,
+        () => html`${child}`
       )}
     </remix-route-wrapper>
   `;
@@ -764,7 +773,7 @@ export class LinkDirective extends Directive {
 
   private attachListener(
     part: ElementPart,
-    routerController: RouterController,
+    routerController: RouterController
   ) {
     if (!this.isAttached) {
       const nav = routerController.navigate.bind(routerController);
@@ -797,7 +806,7 @@ export class LinkDirective extends Directive {
 
       if (anchor === undefined) {
         throw new Error(
-          "(link handler) event must have an anchor element in its composed path.",
+          "(link handler) event must have an anchor element in its composed path."
         );
       }
       navigate(new URL(anchor.href).pathname);
@@ -818,14 +827,14 @@ export class FormDirective extends Directive {
     _routerController: _RouterController,
     _replace: boolean,
     _fetcherKey: string | null,
-    _routeId: string | null,
+    _routeId: string | null
   ) {
     return noChange;
   }
 
   update(
     part: Part,
-    [routerController, replace, fetcherKey, routeId]: DirectiveParameters<this>,
+    [routerController, replace, fetcherKey, routeId]: DirectiveParameters<this>
   ) {
     if (
       part.type !== PartType.ELEMENT ||
@@ -841,8 +850,8 @@ export class FormDirective extends Directive {
         routerController,
         replace,
         fetcherKey,
-        routeId,
-      ),
+        routeId
+      )
     );
   }
 
@@ -851,7 +860,7 @@ export class FormDirective extends Directive {
     routerController: _RouterController,
     replace: boolean,
     fetcherKey: string | null,
-    routeId: string | null,
+    routeId: string | null
   ) {
     return (event: SubmitEvent) => {
       if (event.defaultPrevented) {
@@ -867,7 +876,7 @@ export class FormDirective extends Directive {
           replace: replace,
         },
         fetcherKey ?? undefined,
-        routeId ?? undefined,
+        routeId ?? undefined
       );
     };
   }
@@ -892,7 +901,7 @@ function submitImpl(
   target: SubmitTarget,
   options: SubmitOptions = {},
   fetcherKey?: string,
-  routeId?: string,
+  routeId?: string
 ): void {
   if (typeof document === "undefined") {
     throw new Error("Unable to submit during server render");
@@ -901,7 +910,7 @@ function submitImpl(
   let { method, encType, formData, url } = getFormSubmissionInfo(
     target,
     defaultAction,
-    options,
+    options
   );
 
   let href = url.pathname + url.search;
@@ -924,7 +933,7 @@ function getPathContributingMatches(matches: DataRouteMatch[]) {
     (match, index) =>
       index === 0 ||
       (!match.route.index &&
-        match.pathnameBase !== matches[index - 1].pathnameBase),
+        match.pathnameBase !== matches[index - 1].pathnameBase)
   );
 }
 
