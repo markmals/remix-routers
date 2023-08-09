@@ -82,7 +82,7 @@ export class Layout extends LitElement {
       <!-- Render global-layout stuff here, such as a header and nav bar -->
       <h1>Welcome to my Lit Application!</h1>
       <nav>
-        <a href="/child ${this.router.enhanceLink()}>Go to Child</a>
+        <a href="/child" ${this.router.enhanceLink()}>Go to Child</a>
         <!-- more nav links -->
       </nav>
 
