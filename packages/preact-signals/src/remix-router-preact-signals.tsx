@@ -34,7 +34,7 @@ import {
   Signal,
   type ReadonlySignal,
 } from "@preact/signals";
-import { useContext, useEffect } from "preact/hooks";
+import { useContext, useEffect, useMemo } from "preact/hooks";
 import {
   createContext,
   type VNode,
@@ -408,7 +408,8 @@ type FetcherFormProps = PropsWithChildren<
   } & JSXInternal.HTMLAttributes<HTMLFormElement>
 >;
 
-type FetcherWithComponents<TData> = Fetcher<TData> & {
+type FetcherWithComponents<TData> = {
+  fetcher: ReadonlySignal<Fetcher<TData>>;
   Form: FunctionComponent<FetcherFormProps>;
   submit(
     target:
@@ -424,9 +425,7 @@ type FetcherWithComponents<TData> = Fetcher<TData> & {
   load: (href: string) => void;
 };
 
-export function useFetcher<TData = unknown>(): ReadonlySignal<
-  FetcherWithComponents<TData>
-> {
+export function useFetcher<TData = unknown>(): FetcherWithComponents<TData> {
   let { router, state } = useRouterContext();
   let { id } = useRouteContext();
   let defaultAction = useFormAction();
@@ -463,16 +462,37 @@ export function useFetcher<TData = unknown>(): ReadonlySignal<
     );
   }
 
-  return useComputed(() => ({
-    ...fetcher.value,
-    Form,
-    submit(target, options = {}) {
-      return submitImpl(router, defaultAction, target, options, fetcherKey, id);
-    },
-    load(href) {
-      return router.fetch(fetcherKey, id, href);
-    },
-  }));
+  return useMemo(
+    () => ({
+      fetcher,
+      Form,
+      submit(target, options = {}) {
+        return submitImpl(
+          router,
+          defaultAction,
+          target,
+          options,
+          fetcherKey,
+          id
+        );
+      },
+      load(href) {
+        return router.fetch(fetcherKey, id, href);
+      },
+    }),
+    [Form]
+  );
+
+  // useComputed(() => ({
+  // ...fetcher.value,
+  // Form,
+  // submit(target, options = {}) {
+  //   return submitImpl(router, defaultAction, target, options, fetcherKey, id);
+  // },
+  // load(href) {
+  //   return router.fetch(fetcherKey, id, href);
+  // },
+  // }));
 }
 
 // FIXME: Should this be a computed?
