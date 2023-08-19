@@ -43,82 +43,84 @@ In the interest of time (for now), please refer to the [docs for `react-router@6
 
 _Legend:_ ✅ (Included), ⏳ (Coming soon), ❌ (Not planned), Empty (Status unknown)
 
-| API                        | React Router | Vue | Svelte |
-| -------------------------- | ------------ | --- | ------ |
-| **ROUTE**                  | -            | -   | -      |
-| `action`                   | ✅           | ✅  | ✅     |
-| `caseSensitive`            | ✅           | ✅  | ✅     |
-| `children`                 | ✅           | ✅  | ✅     |
-| `element`                  | ✅           | ✅  | ✅     |
-| `errorElement`             | ✅           | ✅  |        |
-| `id`                       | ✅           | ✅  | ✅     |
-| `index`                    | ✅           | ✅  | ✅     |
-| `loader`                   | ✅           | ✅  | ✅     |
-| `path`                     | ✅           | ✅  | ✅     |
-| `shouldRevalidate`         | ✅           | ✅  | ✅     |
-| **COMPONENTS**             | -            | -   |
-| `Await`                    | ✅           | ✅  |        |
-| `Form`                     | ✅           | ✅  | ✅     |
-| `Link`                     | ✅           | ✅  | ✅     |
-| `NavLink`                  | ✅           | ⏳  |
-| `Navigate`                 | ✅           |     |
-| `Outlet`                   | ✅           | ✅  | ✅     |
-| `Route`                    | ✅           | ❌  | ❌     |
-| `Routes`                   | ✅           | ❌  | ❌     |
-| `ScrollRestoration`        | ✅           | ⏳  |
-| **ROUTERS**                | -            | -   |
-| `createBrowserRouter`      | ✅           | ✅  | ✅     |
-| `createHashRouter`         | ✅           | ✅  | ✅     |
-| `createMemoryRouter`       | ✅           | ✅  | ✅     |
-| `BrowserRouter`            | ✅           | ❌  | ❌     |
-| `HashRouter`               | ✅           | ❌  | ❌     |
-| `HistoryRouter`            | ✅           | ❌  | ❌     |
-| `MemoryRouter`             | ✅           | ❌  | ❌     |
-| `NativeRouter`             | ✅           | ❌  | ❌     |
-| `Router`                   | ✅           | ❌  | ❌     |
-| `RouterProvider`           | ✅           | ✅  | ✅     |
-| `StaticRouter`             | ✅           | ❌  | ❌     |
-| **HOOKS**                  | -            | -   | -      |
-| `useActionData`            | ✅           | ✅  | ⏳     |
-| `useAsyncValue`            | ✅           | ⏳  |        |
-| `useAsyncError`            | ✅           | ⏳  |        |
-| `useFetcher`               | ✅           | ✅  | ✅     |
-| `useFetchers`              | ✅           | ✅  | ⏳     |
-| `useFormAction`            | ✅           | ✅  | ✅     |
-| `useHref`                  | ✅           | ✅  |        |
-| `useInRouterContext`       | ✅           |     |        |
-| `useLinkClickHandler`      | ✅           |     |        |
-| `useLinkPressHandler`      | ✅           |     |        |
-| `useLoaderData`            | ✅           | ✅  | ✅     |
-| `useLocation`              | ✅           | ✅  | ✅     |
-| `useMatch`                 | ✅           |     |
-| `useMatches`               | ✅           | ✅  | ✅     |
-| `useNavigate`              | ✅           | ✅  | ✅     |
-| `useNavigation`            | ✅           | ✅  | ✅     |
-| `useNavigationType`        | ✅           | ✅  | ✅     |
-| `useOutlet`                | ✅           |     |        |
-| `useOutletContext`         | ✅           |     |        |
-| `useParams`                | ✅           |     |        |
-| `useResolvedPath`          | ✅           | ✅  |        |
-| `useRevalidator`           | ✅           | ⏳  |        |
-| `useRouteError`            | ✅           | ✅  |        |
-| `useRouteLoaderData`       | ✅           | ✅  | ✅     |
-| `useRoutes`                | ✅           | ❌  |        |
-| `useSearchParams`          | ✅           |     |        |
-| `useSubmit`                | ✅           | ✅  |        |
-| **FETCH UTILITIES**        | -            | -   |        |
-| `json`                     | ✅           | ✅  |        |
-| `redirect`                 | ✅           | ✅  |        |
-| **UTILITIES**              | -            | -   |        |
-| `createRoutesFromChildren` | ✅           | ❌  | ❌     |
-| `createSearchParams`       | ✅           |     |        |
-| `defer`                    | ✅           | ✅  |        |
-| `generatePath`             | ✅           |     |        |
-| `isRouteErrorResponse`     | ✅           | ✅  |        |
-| `matchPath`                | ✅           |     |        |
-| `matchRoutes`              | ✅           |     |        |
-| `renderMatches`            | ✅           |     |        |
-| `resolvePath`              | ✅           |     |        |
+| API                        | React Router | Vue | Svelte | Preact Signals |
+| -------------------------- | ------------ | --- | ------ | -------------- |
+| **ROUTE**                  | -            | -   | -      | -              |
+| `action`                   | ✅           | ✅  | ✅     | ✅             |
+| `caseSensitive`            | ✅           | ✅  | ✅     | ✅             |
+| `children`                 | ✅           | ✅  | ✅     | ✅             |
+| `element`                  | ✅           | ✅  | ✅     |                |
+| `errorElement`             | ✅           | ✅  |        |                |
+| `id`                       | ✅           | ✅  | ✅     | ✅             |
+| `index`                    | ✅           | ✅  | ✅     | ✅             |
+| `loader`                   | ✅           | ✅  | ✅     | ✅             |
+| `path`                     | ✅           | ✅  | ✅     | ✅             |
+| `shouldRevalidate`         | ✅           | ✅  | ✅     | ✅             |
+| `Component`                | ✅           |     |        | ✅             |
+| `ErrorBoundary`            | ✅           |     |        | ✅             |
+| **COMPONENTS**             | -            | -   |        |                |
+| `Await`                    | ✅           | ✅  |        | ⏳             |
+| `Form`                     | ✅           | ✅  | ✅     | ✅             |
+| `Link`                     | ✅           | ✅  | ✅     | ✅             |
+| `NavLink`                  | ✅           | ⏳  |        | ⏳             |
+| `Navigate`                 | ✅           |     |        |                |
+| `Outlet`                   | ✅           | ✅  | ✅     | ✅             |
+| `Route`                    | ✅           | ❌  | ❌     | ❌             |
+| `Routes`                   | ✅           | ❌  | ❌     | ❌             |
+| `ScrollRestoration`        | ✅           | ⏳  |        | ⏳             |
+| **ROUTERS**                | -            | -   | -      | -              |
+| `createBrowserRouter`      | ✅           | ✅  | ✅     | ✅             |
+| `createHashRouter`         | ✅           | ✅  | ✅     | ✅             |
+| `createMemoryRouter`       | ✅           | ✅  | ✅     | ✅             |
+| `BrowserRouter`            | ✅           | ❌  | ❌     | ❌             |
+| `HashRouter`               | ✅           | ❌  | ❌     | ❌             |
+| `HistoryRouter`            | ✅           | ❌  | ❌     | ❌             |
+| `MemoryRouter`             | ✅           | ❌  | ❌     | ❌             |
+| `NativeRouter`             | ✅           | ❌  | ❌     | ❌             |
+| `Router`                   | ✅           | ❌  | ❌     | ❌             |
+| `RouterProvider`           | ✅           | ✅  | ✅     | ✅             |
+| `StaticRouter`             | ✅           | ❌  | ❌     | ⏳             |
+| **HOOKS**                  | -            | -   | -      | -              |
+| `useActionData`            | ✅           | ✅  | ⏳     | ✅             |
+| `useAsyncValue`            | ✅           | ⏳  |        | ⏳             |
+| `useAsyncError`            | ✅           | ⏳  |        | ⏳             |
+| `useFetcher`               | ✅           | ✅  | ✅     | ✅             |
+| `useFetchers`              | ✅           | ✅  | ⏳     | ✅             |
+| `useFormAction`            | ✅           | ✅  | ✅     | ✅             |
+| `useHref`                  | ✅           | ✅  |        | ✅             |
+| `useInRouterContext`       | ✅           |     |        |                |
+| `useLinkClickHandler`      | ✅           |     |        |                |
+| `useLinkPressHandler`      | ✅           |     |        |                |
+| `useLoaderData`            | ✅           | ✅  | ✅     | ✅             |
+| `useLocation`              | ✅           | ✅  | ✅     | ✅             |
+| `useMatch`                 | ✅           |     |        |                |
+| `useMatches`               | ✅           | ✅  | ✅     | ✅             |
+| `useNavigate`              | ✅           | ✅  | ✅     | ✅             |
+| `useNavigation`            | ✅           | ✅  | ✅     | ✅             |
+| `useNavigationType`        | ✅           | ✅  | ✅     | ✅             |
+| `useOutlet`                | ✅           |     |        |                |
+| `useOutletContext`         | ✅           |     |        |                |
+| `useParams`                | ✅           |     |        |                |
+| `useResolvedPath`          | ✅           | ✅  |        | ✅             |
+| `useRevalidator`           | ✅           | ⏳  |        |                |
+| `useRouteError`            | ✅           | ✅  |        | ✅             |
+| `useRouteLoaderData`       | ✅           | ✅  | ✅     | ✅             |
+| `useRoutes`                | ✅           | ❌  |        |                |
+| `useSearchParams`          | ✅           |     |        |                |
+| `useSubmit`                | ✅           | ✅  |        | ✅             |
+| **FETCH UTILITIES**        | -            | -   |        |                |
+| `json`                     | ✅           | ✅  |        | ✅             |
+| `redirect`                 | ✅           | ✅  |        | ✅             |
+| **UTILITIES**              | -            | -   |        |                |
+| `createRoutesFromChildren` | ✅           | ❌  | ❌     | ❌             |
+| `createSearchParams`       | ✅           |     |        |                |
+| `defer`                    | ✅           | ✅  |        | ⏳             |
+| `generatePath`             | ✅           |     |        |                |
+| `isRouteErrorResponse`     | ✅           | ✅  |        | ✅             |
+| `matchPath`                | ✅           |     |        |                |
+| `matchRoutes`              | ✅           |     |        |                |
+| `renderMatches`            | ✅           |     |        |                |
+| `resolvePath`              | ✅           |     |        |                |
 
 ## Contributing
 
@@ -126,6 +128,7 @@ We welcome contributions from the community! Feel free to open issues and/or PRs
 
 - Vue - [@brophdawg11][brophdawg11]
 - Svelte - [@austincrim][austincrim]
+- Preact Signals - [@markmals][markmals]
 
 ### Repository Setup
 
@@ -148,3 +151,4 @@ This repository uses [yarn workspaces][workspaces], and each implementation shou
 [svelte-readme]: ./packages/svelte#readme
 [brophdawg11]: https://github.com/brophdawg11/
 [austincrim]: https://github.com/austincrim/
+[markmals]: https://github.com/markmals/
