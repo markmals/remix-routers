@@ -36,8 +36,9 @@ import {
   FunctionComponent,
   Component,
   ComponentType,
+  JSX,
 } from "preact";
-import { PropsWithChildren, Suspense } from "preact/compat";
+import { PropsWithChildren } from "preact/compat";
 import type { SubmitOptions } from "./dom";
 import { getFormSubmissionInfo, shouldProcessLinkClick } from "./dom";
 import invariant from "tiny-invariant";
@@ -421,7 +422,7 @@ type FetcherWithComponents<TData> = {
 };
 
 export function useFetcher<TData = unknown>(): FetcherWithComponents<TData> {
-  let { router, state } = useRouterContext();
+  let { router } = useRouterContext();
   let { id } = useRouteContext();
   let defaultAction = useFormAction();
   let fetcherKey = String(++fetcherId);

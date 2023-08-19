@@ -18,7 +18,9 @@ yarn add remix-router-preact-signals
 
 ## Notable API Differences
 
-- All stateful hooks return `ReadonlySignal<T>` instead of `T`
+- All stateful hooks, except for `useFetcher()`, return `ReadonlySignal<T>` instead of `T`
+- `useFetcher()` returns an object with the standard `Form`, `submit(target, options)`, `load(href)`, keys as well as a `fetcher` object with the type of `ReadonlySignal<Fetcher<T>>`, instead of the fetcher's properties being included directly on the object returned by `useFetcher()`
+  - This is designed to make it so the `Form` and functions are easier to use without getting into a `<fetcher.value.Form></<fetcher.value.Form>` situation or even a computed `<Form.value></Form.value>` situation. The implemented API even allows for destructuring, such as `let { fetcher, Form: DeleteForm } = useFetcher()`, allowing you to use `fetcher.value` where needed and `<DeleteForm></DeleteForm>` in your JSX.
 - `<Await>` is not currently implemented
 
 ## Example Usage
