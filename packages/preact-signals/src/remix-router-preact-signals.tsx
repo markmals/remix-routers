@@ -1,6 +1,5 @@
 /* eslint-disable */
 import {
-  AbortedDeferredError,
   Action as NavigationType,
   createBrowserHistory,
   createHashHistory,
@@ -25,12 +24,8 @@ import {
   Fetcher,
 } from "@remix-run/router";
 import {
-  signal,
   useSignal,
-  computed,
   useComputed,
-  effect,
-  useSignalEffect,
   Signal,
   type ReadonlySignal,
 } from "@preact/signals";
@@ -49,7 +44,7 @@ import invariant from "tiny-invariant";
 import { JSXInternal } from "preact/src/jsx";
 
 // Re-exports from remix router
-export { defer, isRouteErrorResponse, json, redirect } from "@remix-run/router";
+export { isRouteErrorResponse, json, redirect } from "@remix-run/router";
 export type {
   ActionFunction,
   ActionFunctionArgs,
