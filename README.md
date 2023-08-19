@@ -20,6 +20,7 @@ Please refer to the documentation for the UI library of your choice:
 
 - [remix-router-vue][vue-readme]
 - [remix-router-svelte][svelte-readme]
+- [remix-router-preact-signals][preact-signals-readme]
 
 ## Design Goals
 
@@ -149,6 +150,7 @@ This repository uses [yarn workspaces][workspaces], and each implementation shou
 [workspaces]: https://classic.yarnpkg.com/lang/en/docs/workspaces
 [vue-readme]: ./packages/vue#readme
 [svelte-readme]: ./packages/svelte#readme
+[preact-signals-readme]: ./packages/preact-signals#readme
 [brophdawg11]: https://github.com/brophdawg11/
 [austincrim]: https://github.com/austincrim/
 [markmals]: https://github.com/markmals/
