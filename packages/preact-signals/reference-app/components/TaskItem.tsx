@@ -8,13 +8,8 @@ export interface TaskItemProps {
 }
 
 export default function TaskItem({ task }: TaskItemProps) {
-  let taskFetcher = useFetcher();
-  let Form = taskFetcher.Form;
-
-  let isDeleting = useComputed(() => {
-    console.log(taskFetcher.fetcher.value.state);
-    return !!taskFetcher.fetcher.value.formData;
-  });
+  let { fetcher, Form } = useFetcher();
+  let isDeleting = useComputed(() => !!fetcher.value.formData);
   let text = useComputed(() => (isDeleting.value ? "Deleting..." : "❌"));
 
   return (
