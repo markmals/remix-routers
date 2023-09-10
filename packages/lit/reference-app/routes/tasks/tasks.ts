@@ -6,6 +6,7 @@ import { ActionFunctionArgs } from "@remix-run/router";
 import { map } from "lit/directives/map.js";
 import { Task, deleteTask, getTasks } from "../../tasks";
 import { sleep } from "../../utils";
+import { Router } from "../../../src/new-router";
 
 export async function loader() {
   await sleep();
@@ -23,7 +24,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 @customElement("app-tasks")
 export class Tasks extends LitElement {
-  private router = new RouterController(this);
+  private router = new Router(this);
 
   get data() {
     return this.router.loaderData<{ tasks: Task[] }>();
@@ -39,11 +40,12 @@ export class Tasks extends LitElement {
             <li>
               <app-task-item .task=${task}></app-task-item>
             </li>
-          `,
+          `
         )}
       </ul>
-      <a href="/tasks/new" ${this.router.enhanceLink()}>Add New Task</a>
-      <remix-outlet></remix-outlet>
+      <!-- {this.router.enhanceLink()} -->
+      <a href="/tasks/new">Add New Task</a>
+      <router-outlet></router-outlet>
     `;
   }
 }

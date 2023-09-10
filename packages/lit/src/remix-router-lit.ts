@@ -28,6 +28,7 @@ import {
   LitElement,
   Part,
   ReactiveController,
+  ReactiveControllerHost,
   ReactiveElement,
   TemplateResult,
   html,
@@ -594,12 +595,31 @@ export class RouterProvider extends LitElement {
     this.unsubscribe();
   }
 
+  public get routerMatches(): DataRouteMatch[] {
+    return this.routerContext.state.matches.map((match) => ({
+      id: match.route.id,
+      pathname: match.pathname,
+      pathnameBase: match.pathnameBase,
+      route: match.route,
+      params: match.params,
+      data: this.routerContext.state.loaderData[match.route.id] as unknown,
+      handle: match.route.handle as unknown,
+    }));
+  }
+
   render() {
     if (!this.state.initialized) {
       return this.fallback ? this.fallback : html`<span></span>`;
     }
 
-    return html`<remix-outlet-impl .root=${true}></remix-outlet-impl>`;
+    return outletImpl(
+      {
+        routerContext: this.routerContext,
+        routeContext: null,
+        matches: this.routerMatches,
+      },
+      true
+    );
   }
 }
 
@@ -620,8 +640,7 @@ export class RouteWrapper extends LitElement {
       id: this.id,
       matches: this.routerController.matches.slice(
         0,
-        this.routerController.matches.findIndex((m) => m.route.id === this.id) +
-          1
+        this.routerController.matches.findIndex((m) => m.route.id === this.id)
       ),
       index: this.index === true,
     };
@@ -669,76 +688,64 @@ export class ErrorBoundary extends LitElement {
   }
 }
 
-@customElement("remix-outlet-impl")
-export class OutletImpl extends LitElement {
-  @property({ attribute: false })
-  root: boolean = false;
+type OutletController = {
+  routerContext: RouterContext;
+  routeContext: RouteContext | null;
+  matches: DataRouteMatch[];
+};
 
-  routerController = new RouterController(this) as any as _RouterController;
+function outletImpl(controller: OutletController, root: boolean = false) {
+  let state = controller.routerContext.state;
+  let routeContext = root ? null : controller.routeContext;
 
-  get state() {
-    return this.routerController.routerContext.state;
-  }
+  console.log(controller.matches);
+  console.log(routeContext?.id);
 
-  get routeContext() {
-    return this.root ? null : this.routerController.routeContext;
-  }
+  let idx = controller.matches.findIndex(
+    (m) => m.route.id === routeContext?.id
+  );
 
-  render() {
-    let idx = this.routerController.matches.findIndex(
-      (m) => m.route.id === this.routeContext?.id
+  if (idx < 0 && !root) {
+    throw new Error(
+      `Unable to find <remix-outlet> match for route id: ${
+        routeContext?.id || "_root_"
+      }`
     );
-    if (idx < 0 && !this.root) {
-      throw new Error(
-        `Unable to find <remix-outlet> match for route id: ${
-          this.routeContext?.id || "_root_"
-        }`
-      );
-    }
-    let matchToRender = this.routerController.matches[idx + 1];
-
-    if (!matchToRender) {
-      // We found a <remix-outlet> but do not have deeper matching paths so we
-      // end the render tree here
-      return nothing;
-    }
-
-    // Grab the error if we've reached the correct boundary.  Type must remain
-    // unknown since user's can throw anything from a loader/action.
-    let error: unknown =
-      this.state.errors?.[matchToRender.route.id] != null
-        ? Object.values(this.state.errors)[0]
-        : null;
-
-    return renderRouteWrapper(matchToRender, this.root, error);
   }
-}
 
-function renderRouteWrapper(
-  match: DataRouteMatch,
-  root?: boolean,
-  error?: unknown
-): TemplateResult {
+  let matchToRender = controller.matches[idx + 1];
+
+  if (!matchToRender) {
+    // We found a <remix-outlet> but do not have deeper matching paths so we
+    // end the render tree here
+    return nothing;
+  }
+
+  // Grab the error if we've reached the correct boundary.  Type must remain
+  // unknown since user's can throw anything from a loader/action.
+  let error: unknown =
+    state.errors?.[matchToRender.route.id] != null
+      ? Object.values(state.errors)[0]
+      : null;
+
   const child = unsafeHTML(
-    !!match.route.element
-      ? `<${match.route.element}></${match.route.element}>`
+    !!matchToRender.route.element
+      ? `<${matchToRender.route.element}></${matchToRender.route.element}>`
       : ""
   );
 
-  // FIXME: There is a stale-state issue here causing this to be called
-  // with an old id after that id no longer exists
-
   return html`
     <remix-route-wrapper
-      .id=${match.route.id}
-      .index=${match.route.index === true}
+      .id=${matchToRender.route.id}
+      .index=${matchToRender.route.index === true}
     >
       ${when(
-        root || error || match.route.errorElement,
+        root || error || matchToRender.route.errorElement,
         () => html`
           <remix-error-boundary
             .error=${error}
-            .elementTag=${match.route.errorElement || "remix-default-error"}
+            .elementTag=${matchToRender.route.errorElement ||
+            "remix-default-error"}
           >
             ${child}
           </remix-error-boundary>
@@ -751,8 +758,10 @@ function renderRouteWrapper(
 
 @customElement("remix-outlet")
 export class Outlet extends LitElement {
+  routerController = new RouterController(this);
+
   render() {
-    return html`<remix-outlet-impl></remix-outlet-impl>`;
+    return outletImpl(this.routerController as any);
   }
 }
 

@@ -1,10 +1,10 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { RouterController } from "remix-router-lit";
 
 import type { LoaderFunctionArgs } from "@remix-run/router";
 import { Task as ITask, getTasks } from "../../tasks";
 import { sleep } from "../../utils";
+import { Router } from "../../../src/new-router";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   await sleep();
@@ -15,7 +15,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 @customElement("app-task")
 export class Task extends LitElement {
-  private router = new RouterController(this);
+  private router = new Router(this);
 
   get data() {
     return this.router.loaderData<{ task: ITask | undefined }>();

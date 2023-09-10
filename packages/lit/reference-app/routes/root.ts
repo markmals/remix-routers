@@ -1,11 +1,11 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { map } from "lit/directives/map.js";
-import { RouterController } from "remix-router-lit";
+import { Router } from "../../src/new-router";
 
 @customElement("app-root")
 export class Root extends LitElement {
-  private router = new RouterController(this);
+  private router = new Router(this);
 
   private readonly links = {
     Index: "/",
@@ -36,11 +36,12 @@ export class Root extends LitElement {
         ${map(
           Object.entries(this.links),
           ([text, href]) =>
-            html`<a ${this.router.enhanceLink()} href="${href}">${text}</a> `,
+            // html`<a ${this.router.enhanceLink()} href="${href}">${text}</a> `,
+            html`<a href="${href}">${text}</a> `
         )}
-        <button id="back" @click=${() => this.router.navigate(-1)}>
+        <!-- <button id="back" @click={() => this.router.navigate(-1)}>
           Go Back
-        </button>
+        </button> -->
       </nav>
       ${map(
         Object.entries(this.properties),
@@ -49,9 +50,9 @@ export class Root extends LitElement {
             ${k}:
             <code id="${k}">${v}</code>
           </p>
-        `,
+        `
       )}
-      <remix-outlet></remix-outlet>
+      <router-outlet></router-outlet>
     `;
   }
 }

@@ -1,8 +1,8 @@
 import { json } from "@remix-run/router";
 import { html, LitElement } from "lit";
 import { customElement } from "lit/decorators.js";
-import { RouterController } from "remix-router-lit";
 import { sleep } from "../../utils";
+import { Router } from "../../../src/new-router";
 
 interface LoaderData {
   data: string;
@@ -15,7 +15,7 @@ export async function loader() {
 
 @customElement("app-child")
 export class Child extends LitElement {
-  private router = new RouterController(this);
+  private router = new Router(this);
 
   get data() {
     return this.router.loaderData<LoaderData>();
