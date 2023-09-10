@@ -1,10 +1,10 @@
 import { useComputed } from "@preact/signals";
 import { Link, useFetcher } from "remix-router-preact-signals";
 
-import type { Task } from "../tasks";
+import type { ITask } from "../tasks";
 
 export interface TaskItemProps {
-  task: Task;
+  task: ITask;
 }
 
 export default function TaskItem({ task }: TaskItemProps) {
@@ -14,7 +14,7 @@ export default function TaskItem({ task }: TaskItemProps) {
 
   return (
     <>
-      <span>{task.task}</span> <Link to={`/tasks/${task.id}`}>Open</Link>{" "}
+      <span>{task.name}</span> <Link to={`/tasks/${task.id}`}>Open</Link>{" "}
       <Form style={{ display: "inline" }} action="/tasks" method="post">
         <button
           type="submit"

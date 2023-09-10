@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, useLoaderData } from "remix-router-preact-signals";
 
-import { getTasks, Task as ITask } from "~/tasks";
+import { getTasks, ITask as ITask } from "~/tasks";
 import { sleep } from "~/utils";
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -16,7 +16,7 @@ export default function Task() {
   return (
     <>
       <h3>Task</h3>
-      <p>{data.value.task?.task}</p>
+      <p>{data.value.task?.name}</p>
     </>
   );
 }

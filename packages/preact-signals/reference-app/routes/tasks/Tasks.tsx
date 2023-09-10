@@ -4,7 +4,7 @@ import type {
 } from "remix-router-preact-signals";
 import { Link, Outlet, useLoaderData } from "remix-router-preact-signals";
 
-import { deleteTask, getTasks, Task } from "~/tasks";
+import { deleteTask, getTasks, ITask } from "~/tasks";
 import { sleep } from "~/utils";
 import TaskItem from "~/components/TaskItem";
 
@@ -25,13 +25,13 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Tasks() {
-  const data = useLoaderData<{ tasks: Task[] }>();
+  const data = useLoaderData<{ tasks: ITask[] }>();
 
   return (
     <>
       <h2>Tasks</h2>
       <ul>
-        {data.value.tasks.map((task: Task) => (
+        {data.value.tasks.map((task: ITask) => (
           <li key={task.id}>
             <TaskItem task={task} />
           </li>

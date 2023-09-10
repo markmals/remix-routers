@@ -17,7 +17,7 @@ import Tasks, {
 } from "~/routes/tasks/Tasks";
 import Task, { loader as taskLoader } from "~/routes/tasks/Task";
 import NewTask, { action as newTaskAction } from "~/routes/tasks/NewTask";
-// import Defer, { loader as deferLoader } from "~/routes/Defer";
+import Defer, { loader as deferLoader } from "~/routes/Defer";
 
 let routes: RouteObject[] = [
   {
@@ -74,11 +74,11 @@ let routes: RouteObject[] = [
           },
         ],
       },
-      // {
-      //   path: "defer",
-      //   loader: deferLoader,
-      //   Component: Defer,
-      // },
+      {
+        path: "defer",
+        loader: deferLoader,
+        Component: Defer,
+      },
     ],
   },
 ];
