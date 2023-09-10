@@ -3,7 +3,7 @@ import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { addTask } from "../../tasks";
 import { sleep } from "../../utils";
-import { Router } from "../../../src/new-router";
+import { Router } from "remix-router-lit";
 
 export async function action({ request }: ActionFunctionArgs) {
   await sleep();
@@ -23,8 +23,7 @@ export class NewTask extends LitElement {
   render() {
     return html`
       <h3>New Task</h3>
-      <!-- {this.router.enhanceForm()} -->
-      <form method="post">
+      <form method="post" ${this.router.enhanceForm()}>
         <input
           name="new-task"
           placeholder="Add a task..."

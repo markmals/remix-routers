@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, json } from "@remix-run/router";
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { Router } from "../../src/new-router";
+import { Router } from "remix-router-lit";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   let isLoaderError =

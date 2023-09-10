@@ -2,7 +2,7 @@ import { json } from "@remix-run/router";
 import { html, LitElement } from "lit";
 import { customElement } from "lit/decorators.js";
 import { sleep } from "../../utils";
-import { Router } from "../../../src/new-router";
+import { Router } from "remix-router-lit";
 
 interface LoaderData {
   data: string;

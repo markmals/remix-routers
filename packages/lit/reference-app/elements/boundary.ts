@@ -1,10 +1,10 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { RouterController } from "remix-router-lit";
+import { Router } from "remix-router-lit";
 
 @customElement("app-error-boundary")
 export class ErrorBoundary extends LitElement {
-  private router = new RouterController(this);
+  private router = new Router(this);
 
   get error() {
     return this.router.routeError as { message: string };

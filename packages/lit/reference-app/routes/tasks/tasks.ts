@@ -1,12 +1,10 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { RouterController } from "remix-router-lit";
-
 import { ActionFunctionArgs } from "@remix-run/router";
 import { map } from "lit/directives/map.js";
-import { Task, deleteTask, getTasks } from "../../tasks";
+import { ITask, deleteTask, getTasks } from "../../tasks";
 import { sleep } from "../../utils";
-import { Router } from "../../../src/new-router";
+import { Router } from "remix-router-lit";
 
 export async function loader() {
   await sleep();
@@ -27,7 +25,7 @@ export class Tasks extends LitElement {
   private router = new Router(this);
 
   get data() {
-    return this.router.loaderData<{ tasks: Task[] }>();
+    return this.router.loaderData<{ tasks: ITask[] }>();
   }
 
   render() {
@@ -43,8 +41,7 @@ export class Tasks extends LitElement {
           `
         )}
       </ul>
-      <!-- {this.router.enhanceLink()} -->
-      <a href="/tasks/new">Add New Task</a>
+      <a href="/tasks/new" ${this.router.enhanceLink()}>Add New Task</a>
       <router-outlet></router-outlet>
     `;
   }

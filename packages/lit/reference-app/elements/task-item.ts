@@ -1,32 +1,33 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Task } from "../tasks";
-// import { Router } from "../../src/new-router";
+import { ITask } from "../tasks";
+import { FetcherWithDirective, Router } from "remix-router-lit";
 
 @customElement("app-task-item")
 export class TaskItem extends LitElement {
-  // private router = new Router(this);
+  private router = new Router(this);
 
   @property({ attribute: false })
-  public task!: Task;
+  public task!: ITask;
 
-  // fetcher = this.router.fetcher();
+  fetcher!: FetcherWithDirective<any>;
 
   get isDeleting() {
-    return false;
-    // return this.fetcher.formData != null;
+    return this.fetcher.formData != null;
+  }
+
+  connectedCallback() {
+    this.fetcher = this.router.getFetcher();
   }
 
   render() {
     return html`
-      <span>${this.task.task}</span>
+      <span>${this.task.name}</span>
       &nbsp;
-      <!-- this.router.enhanceLink() -->
-      <a href=${`/tasks/${this.task.id}`}>Open</a>
+      <a href=${`/${this.task.id}`} ${this.router.enhanceLink()}>Open</a>
       &nbsp;
 
-      <!-- this.fetcher.enhanceForm() -->
-      <form style="display: inline" action="/tasks" method="post">
+      <form style="display: inline" method="post" ${this.fetcher.enhanceForm()}>
         <button
           type="submit"
           name="taskId"

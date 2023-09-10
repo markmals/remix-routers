@@ -1,7 +1,7 @@
 import { defer } from "@remix-run/router";
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { RouterController } from "remix-router-lit";
+import { Router } from "remix-router-lit";
 
 const resolve = (data: any, ms: number) =>
   new Promise((r) => setTimeout(() => r(data), ms));
@@ -18,7 +18,7 @@ export async function loader() {
 
 @customElement("app-defer")
 export class Defer extends LitElement {
-  private router = new RouterController(this);
+  private router = new Router(this);
 
   get data() {
     return this.router.loaderData<{
