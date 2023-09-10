@@ -31,7 +31,7 @@ import {
   Signal,
   type ReadonlySignal,
 } from "@preact/signals";
-import { useContext, useEffect, useMemo } from "preact/hooks";
+import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import {
   createContext,
   type VNode,
@@ -446,7 +446,7 @@ export function useFetcher<TData = unknown>(): FetcherWithComponents<TData> {
   let { router } = useRouterContext();
   let { id } = useRouteContext();
   let defaultAction = useFormAction();
-  let fetcherKey = String(++fetcherId);
+  let [fetcherKey] = useState(() => String(++fetcherId));
   let fetcher = useSignal<Fetcher<TData>>(router.getFetcher<TData>(fetcherKey));
 
   useEffect(() => {
@@ -458,7 +458,7 @@ export function useFetcher<TData = unknown>(): FetcherWithComponents<TData> {
       unsubscribe();
       router.deleteFetcher(fetcherKey);
     };
-  }, []);
+  }, [fetcherKey]);
 
   function Form({
     replace = false,

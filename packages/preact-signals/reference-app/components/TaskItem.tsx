@@ -1,4 +1,4 @@
-import { useComputed } from "@preact/signals";
+import { useComputed, useSignalEffect } from "@preact/signals";
 import { Link, useFetcher } from "remix-router-preact-signals";
 
 import type { ITask } from "../tasks";
