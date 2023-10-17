@@ -20,7 +20,7 @@ export class Parent extends LitElement {
   render() {
     return html`
       <h2>Parent Layout</h2>
-      <p id="parent">Parent data: ${this.loaderData?.data}</p>
+      <p id="parent">Parent data: ${this.loaderData.data}</p>
       ${this.router.outlet()}
     `;
   }

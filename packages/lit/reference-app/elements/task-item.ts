@@ -8,7 +8,7 @@ export class TaskItem extends LitElement {
   router = new Router(this);
 
   @property({ attribute: false })
-  accessor task!: ITask;
+  task!: ITask;
 
   fetcher!: FetcherWithDirective;
 

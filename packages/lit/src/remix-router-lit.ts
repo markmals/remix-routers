@@ -62,8 +62,8 @@ export interface IndexRouteObject {
   handle?: AgnosticIndexRouteObject["handle"];
   index: true;
   children?: undefined;
-  template?: TemplateResult | null;
-  errorTemplate?: TemplateResult | null;
+  template?: () => TemplateResult | null;
+  errorTemplate?: () => TemplateResult | null;
 }
 
 export interface NonIndexRouteObject {
@@ -77,8 +77,8 @@ export interface NonIndexRouteObject {
   handle?: AgnosticNonIndexRouteObject["handle"];
   index?: false;
   children?: RouteObject[];
-  template?: TemplateResult | null;
-  errorTemplate?: TemplateResult | null;
+  template?: () => TemplateResult | null;
+  errorTemplate?: () => TemplateResult | null;
   lazy?: LazyRouteFunction<RouteObject>;
 }
 
@@ -399,40 +399,39 @@ export class RouteWrapper extends LitElement {
     `,
   ];
 
-  @state()
-  accessor #routeId!: string;
+  @state() _routeId!: string;
 
   get routeId() {
-    return this.#routeId;
+    return this._routeId;
   }
 
   @property({ attribute: false })
   set routeId(newValue: string) {
-    this.#routeId = newValue;
+    this._routeId = newValue;
     this.#routeIdProvider.setValue(newValue);
   }
 
   @property({ attribute: false })
-  accessor match!: DataRouteMatch;
+  match!: DataRouteMatch;
 
   @property({ attribute: false })
-  accessor routeError!: unknown;
+  routeError!: unknown;
 
   @state()
-  accessor #error: unknown;
+  _error: unknown;
 
   get error() {
-    return this.#error;
+    return this._error;
   }
 
   @property({ attribute: false })
   set error(newValue: unknown) {
-    this.#error = newValue;
+    this._error = newValue;
     this.#errorProvider.setValue(newValue);
   }
 
   @property({ attribute: false })
-  accessor root!: boolean;
+  root!: boolean;
 
   #router = new Router(this);
 
@@ -482,16 +481,16 @@ export class RouteWrapper extends LitElement {
 
   render() {
     return when(
-      this.root || this.error || this.match.route.errorTemplate,
+      this.root || this.error || this.match.route.errorTemplate?.(),
       () =>
         when(
           this.error,
           () =>
-            this.match.route.errorTemplate ||
+            this.match.route.errorTemplate?.() ||
             defaultErrorTemplate(this.routeError),
-          () => this.match.route.template,
+          () => this.match.route.template?.(),
         ),
-      () => this.match.route.template,
+      () => this.match.route.template?.(),
     );
   }
 }

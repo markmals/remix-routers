@@ -20,7 +20,7 @@ export class Child extends LitElement {
   render() {
     return html`
       <h3>Child Route</h3>
-      <p id="child">Child data: ${this.loaderData?.data}</p>
+      <p id="child">Child data: ${this.loaderData.data}</p>
     `;
   }
 }

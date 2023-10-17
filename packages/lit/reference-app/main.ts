@@ -29,62 +29,62 @@ export class Main extends LitElement {
   routes: RouteObject[] = [
     {
       path: "/",
-      template: html`<app-root></app-root>`,
+      template: () => html`<app-root></app-root>`,
       children: [
         {
           index: true,
-          template: html`<app-index></app-index>`,
+          template: () => html`<app-index></app-index>`,
         },
         {
           path: "parent",
           loader: parentLoader,
-          template: html`<app-parent></app-parent>`,
-          errorTemplate: html`<app-error-boundary></app-error-boundary>`,
+          template: () => html`<app-parent></app-parent>`,
+          errorTemplate: () => html`<app-error-boundary></app-error-boundary>`,
           children: [
             {
               path: "child",
               loader: childLoader,
-              template: html`<app-child></app-child>`,
+              template: () => html`<app-child></app-child>`,
             },
             {
               path: "error",
               loader: errorLoader,
-              template: html`<app-error></app-error>`,
+              template: () => html`<app-error></app-error>`,
             },
           ],
         },
         {
           path: "redirect",
           loader: redirectLoader,
-          template: html`<app-redirect></app-redirect>`,
+          template: () => html`<app-redirect></app-redirect>`,
         },
         {
           path: "error",
           loader: errorLoader,
-          template: html`<app-error></app-error>`,
+          template: () => html`<app-error></app-error>`,
         },
         {
           path: "tasks",
           loader: tasksLoader,
           action: tasksAction,
-          template: html`<app-tasks></app-tasks>`,
+          template: () => html`<app-tasks></app-tasks>`,
           children: [
             {
               path: ":id",
               loader: taskLoader,
-              template: html`<app-task></app-task>`,
+              template: () => html`<app-task></app-task>`,
             },
             {
               path: "new",
               action: newTaskAction,
-              template: html`<app-new-task></app-new-task>`,
+              template: () => html`<app-new-task></app-new-task>`,
             },
           ],
         },
         {
           path: "defer",
           loader: deferLoader,
-          template: html`<app-defer></app-defer>`,
+          template: () => html`<app-defer></app-defer>`,
         },
       ],
     },
