@@ -1,13 +1,25 @@
-import { LitElement, html } from "lit";
+import { LitElement, css, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { map } from "lit/directives/map.js";
 import { Router } from "remix-router-lit";
 
 @customElement("app-root")
 export class Root extends LitElement {
-  private router = new Router(this);
+  static styles = [
+    css`
+      nav {
+        display: flex;
+      }
 
-  private readonly links = {
+      nav > * {
+        margin-right: 1rem;
+      }
+    `,
+  ];
+
+  router = new Router(this);
+
+  links = {
     Index: "/",
     Parent: "/parent",
     Child: "/parent/child",
@@ -20,7 +32,7 @@ export class Root extends LitElement {
     Tasks: "/tasks",
   };
 
-  private get properties() {
+  get properties() {
     return {
       navigationType: JSON.stringify(this.router.navigationType),
       location: JSON.stringify(this.router.location),
@@ -36,7 +48,7 @@ export class Root extends LitElement {
         ${map(
           Object.entries(this.links),
           ([text, href]) =>
-            html`<a ${this.router.enhanceLink()} href="${href}">${text}</a> `
+            html`<a ${this.router.enhanceLink()} href="${href}">${text}</a> `,
         )}
         <button id="back" @click=${() => this.router.navigate(-1)}>
           Go Back
@@ -49,9 +61,9 @@ export class Root extends LitElement {
             ${k}:
             <code id="${k}">${v}</code>
           </p>
-        `
+        `,
       )}
-      <router-outlet></router-outlet>
+      ${this.router.outlet()}
     `;
   }
 }

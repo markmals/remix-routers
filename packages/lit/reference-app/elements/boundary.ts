@@ -4,10 +4,10 @@ import { Router } from "remix-router-lit";
 
 @customElement("app-error-boundary")
 export class ErrorBoundary extends LitElement {
-  private router = new Router(this);
+  router = new Router(this);
 
   get error() {
-    return this.router.routeError as { message: string };
+    return this.router.routeError as any;
   }
 
   render() {

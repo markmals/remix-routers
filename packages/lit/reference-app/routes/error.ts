@@ -17,10 +17,10 @@ export class ErrorElement extends LitElement {
   private router = new Router(this);
 
   get data() {
-    return this.router.loaderData() as any;
+    return this.router.loaderData as any;
   }
 
   render() {
-    return html`<h2>Render Error: ${this.data?.foo.bar}</h2>`;
+    return html`<h2>Render Error: ${this.data.foo.bar}</h2>`;
   }
 }

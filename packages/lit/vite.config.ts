@@ -1,9 +1,11 @@
+import typescript from "@rollup/plugin-typescript";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
 
 export default defineConfig(({ command, mode }) => {
   return {
+    plugins: [typescript()],
     build: {
       lib: {
         entry: "src/index.ts",

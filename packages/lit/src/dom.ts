@@ -33,7 +33,7 @@ function isModifiedEvent(event: LimitedMouseEvent) {
 
 export function shouldProcessLinkClick(
   event: LimitedMouseEvent,
-  target?: string
+  target?: string,
 ) {
   return (
     event.button === 0 && // Ignore everything but left clicks
@@ -72,7 +72,7 @@ export type URLSearchParamsInit =
  *   });
  */
 export function createSearchParams(
-  init: URLSearchParamsInit = ""
+  init: URLSearchParamsInit = "",
 ): URLSearchParams {
   return new URLSearchParams(
     typeof init === "string" ||
@@ -82,15 +82,15 @@ export function createSearchParams(
       : Object.keys(init).reduce((memo, key) => {
           let value = init[key];
           return memo.concat(
-            Array.isArray(value) ? value.map((v) => [key, v]) : [[key, value]]
+            Array.isArray(value) ? value.map((v) => [key, v]) : [[key, value]],
           );
-        }, [] as ParamKeyValuePair[])
+        }, [] as ParamKeyValuePair[]),
   );
 }
 
 export function getSearchParamsForLocation(
   locationSearch: string,
-  defaultSearchParams: URLSearchParams
+  defaultSearchParams: URLSearchParams,
 ) {
   let searchParams = createSearchParams(locationSearch);
 
@@ -145,7 +145,7 @@ export function getFormSubmissionInfo(
     | { [name: string]: string }
     | null,
   defaultAction: string,
-  options: SubmitOptions
+  options: SubmitOptions,
 ): {
   url: URL;
   method: string | undefined;
@@ -181,7 +181,7 @@ export function getFormSubmissionInfo(
 
     if (form == null) {
       throw new Error(
-        `Cannot submit a <button> or <input type="submit"> without a <form>`
+        `Cannot submit a <button> or <input type="submit"> without a <form>`,
       );
     }
 
@@ -212,7 +212,7 @@ export function getFormSubmissionInfo(
   } else if (isHtmlElement(target)) {
     throw new Error(
       `Cannot submit element that is not <form>, <button>, or ` +
-        `<input type="submit|image">`
+        `<input type="submit|image">`,
     );
   } else {
     method = options.method || defaultMethod;

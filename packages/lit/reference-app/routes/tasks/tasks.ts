@@ -1,10 +1,10 @@
+import { ActionFunctionArgs } from "@remix-run/router";
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { ActionFunctionArgs } from "@remix-run/router";
 import { map } from "lit/directives/map.js";
-import { ITask, deleteTask, getTasks } from "../../tasks";
-import { sleep } from "../../utils";
 import { Router } from "remix-router-lit";
+import { deleteTask, getTasks } from "../../tasks";
+import { sleep } from "../../utils";
 
 export async function loader() {
   await sleep();
@@ -22,10 +22,10 @@ export async function action({ request }: ActionFunctionArgs) {
 
 @customElement("app-tasks")
 export class Tasks extends LitElement {
-  private router = new Router(this);
+  router = new Router(this);
 
   get data() {
-    return this.router.loaderData<{ tasks: ITask[] }>();
+    return this.router.loaderData as Awaited<ReturnType<typeof loader>>;
   }
 
   render() {
@@ -33,16 +33,16 @@ export class Tasks extends LitElement {
       <h2>Tasks</h2>
       <ul>
         ${map(
-          this.data?.tasks,
+          this.data.tasks,
           (task) => html`
             <li>
               <app-task-item .task=${task}></app-task-item>
             </li>
-          `
+          `,
         )}
       </ul>
       <a href="/tasks/new" ${this.router.enhanceLink()}>Add New Task</a>
-      <router-outlet></router-outlet>
+      ${this.router.outlet()}
     `;
   }
 }

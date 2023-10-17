@@ -1,9 +1,9 @@
 import { ActionFunctionArgs, redirect } from "@remix-run/router";
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import { Router } from "remix-router-lit";
 import { addTask } from "../../tasks";
 import { sleep } from "../../utils";
-import { Router } from "remix-router-lit";
 
 export async function action({ request }: ActionFunctionArgs) {
   await sleep();
@@ -14,7 +14,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 @customElement("app-new-task")
 export class NewTask extends LitElement {
-  private router = new Router(this);
+  router = new Router(this);
 
   get isAdding() {
     return this.router.navigation.state !== "idle";

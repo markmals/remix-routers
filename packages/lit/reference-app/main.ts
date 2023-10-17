@@ -1,6 +1,10 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { RouteObject, createBrowserRouter } from "remix-router-lit";
+import {
+  RouteObject,
+  RouterProvider,
+  createBrowserRouter,
+} from "remix-router-lit";
 
 import "./elements/boundary";
 import "./elements/task-item";
@@ -89,12 +93,9 @@ export class Main extends LitElement {
   router = createBrowserRouter(this.routes);
   fallback = html`<p>Loading...</p>`;
 
+  provider = new RouterProvider(this, this.router, this.fallback);
+
   render() {
-    return html`
-      <router-provider
-        .router=${this.router}
-        .fallback=${this.fallback}
-      ></router-provider>
-    `;
+    return this.provider.render();
   }
 }

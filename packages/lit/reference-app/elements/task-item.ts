@@ -1,16 +1,16 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ITask } from "../tasks";
 import { FetcherWithDirective, Router } from "remix-router-lit";
+import { ITask } from "../tasks";
 
 @customElement("app-task-item")
 export class TaskItem extends LitElement {
-  private router = new Router(this);
+  router = new Router(this);
 
   @property({ attribute: false })
-  public task!: ITask;
+  accessor task!: ITask;
 
-  fetcher!: FetcherWithDirective<any>;
+  fetcher!: FetcherWithDirective;
 
   get isDeleting() {
     return this.fetcher.formData != null;

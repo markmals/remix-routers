@@ -18,28 +18,26 @@ export async function loader() {
 
 @customElement("app-defer")
 export class Defer extends LitElement {
-  private router = new Router(this);
+  router = new Router(this);
 
   get data() {
-    return this.router.loaderData<{
+    return this.router.loaderData as {
       critical: string;
       lazy: Promise<string>;
       lazyError: Promise<string>;
-    }>();
+    };
   }
 
   render() {
     return html`
-      <p id="critical-data">Critical Data: ${this.data?.critical}</p>
-      ${this.router.await({
-        resolve: this.data?.lazy,
-        fallback: html`<p id="lazy-value">Loading data...</p>`,
-        template: (value) => html`<p id="lazy-value">Value: ${value}</p>`,
+      <p id="critical-data">Critical Data: ${this.data.critical}</p>
+      ${this.router.await(this.data.lazy, {
+        pending: () => html`<p id="lazy-value">Loading data...</p>`,
+        complete: (value) => html`<p id="lazy-value">Value: ${value}</p>`,
       })}
-      ${this.router.await({
-        resolve: this.data?.lazyError,
-        fallback: html`<p id="lazy-error">Loading error...</p>`,
-        template: (value) => html`<p>Value: ${value}</p>`,
+      ${this.router.await(this.data.lazyError, {
+        pending: () => html`<p id="lazy-error">Loading error...</p>`,
+        complete: (value) => html`<p>Value: ${value}</p>`,
         error: (error) => html`<p id="lazy-error">Error: ${error}</p>`,
       })}
     `;
